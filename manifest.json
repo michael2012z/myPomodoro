@@ -1,0 +1,12 @@
+{
+  "name": "myPomodoro",
+  "description": "A Pomodoro timer that opens in a new tab when you click the extension icon.",
+  "version": "0.0.1",
+  "manifest_version": 3,
+  "action": {
+    "default_title": "Pomodoro Timer"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}
