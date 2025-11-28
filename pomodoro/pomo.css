@@ -18,13 +18,45 @@ body {
   text-align: center;
 }
 
+/* Mode row: up/down arrows + title */
+.mode-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
 .title {
-  margin-bottom: 20px;
-  font-size: 24px;
+  font-size: 22px;
   letter-spacing: 0.03em;
 }
 
-/* row: arrow - clock - arrow */
+.mode-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  background: #111827;
+  color: #e5e7eb;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.7);
+  transition: transform 0.1s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.mode-btn:hover {
+  background: #1f2937;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.9);
+}
+
+.mode-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.9);
+}
+
+/* row: left arrow - clock - right arrow */
 .clock-row {
   display: flex;
   align-items: center;
@@ -75,7 +107,7 @@ body {
     inset 0 0 8px rgba(0, 0, 0, 0.6);
 }
 
-/* tick marks (using your tuned origin) */
+/* tick marks (with tuned origin) */
 .tick {
   position: absolute;
   width: 2px;
@@ -145,7 +177,6 @@ body {
   top: 50%;
   left: 50%;
   transform-origin: center center;
-  /* transform set in JS */
 }
 
 .second-hand-orbit {
@@ -167,7 +198,7 @@ body {
 
 .minute-circle {
   position: absolute;
-  width: 130px;  /* diameter = dialRadius = 260 / 2 * 2 */
+  width: 130px;
   height: 130px;
   border-radius: 50%;
   border: 3px solid #f97316;
@@ -176,12 +207,11 @@ body {
   top: 50%;
   left: 50%;
   transform-origin: center center;
-  /* transform set in JS */
 }
 
 .second-circle {
   position: absolute;
-  width: 65px;   /* diameter = minuteRadius = 130 / 2 * 2 */
+  width: 65px;
   height: 65px;
   border-radius: 50%;
   border: 2px solid #facc15;
@@ -190,7 +220,6 @@ body {
   top: 50%;
   left: 50%;
   transform-origin: center center;
-  /* transform set in JS */
 }
 
 /* Common label + controls */

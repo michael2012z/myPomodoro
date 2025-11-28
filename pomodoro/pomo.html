@@ -2,15 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Pomodoro Timer</title>
+  <title>Pomodoro & Timer</title>
   <link rel="stylesheet" href="pomo.css" />
 </head>
 <body>
   <div class="app-container">
-    <h1 id="title" class="title">Pomodoro No. 1</h1>
+    <!-- Mode row: up/down + title -->
+    <div class="mode-row">
+      <button id="mode-up" class="mode-btn">▲</button>
+      <h1 id="title" class="title">Pomodoro No. 1</h1>
+      <button id="mode-down" class="mode-btn">▼</button>
+    </div>
 
     <div class="clock-row">
-      <button id="prev-mode" class="arrow-btn">◀</button>
+      <button id="prev-style" class="arrow-btn">◀</button>
 
       <div class="clock-container">
         <div class="clock-dial">
@@ -48,7 +53,7 @@
         <div class="time-label" id="time-label">25:00</div>
       </div>
 
-      <button id="next-mode" class="arrow-btn">▶</button>
+      <button id="next-style" class="arrow-btn">▶</button>
     </div>
 
     <div class="controls">
