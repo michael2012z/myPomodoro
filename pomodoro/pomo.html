@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pomodoro Timer</title>
+  <link rel="stylesheet" href="pomo.css" />
+</head>
+<body>
+  <div class="app-container">
+    <h1 id="title" class="title">Pomodoro No. 1</h1>
+
+    <div class="clock-row">
+      <button id="prev-mode" class="arrow-btn">◀</button>
+
+      <div class="clock-container">
+        <div class="clock-dial">
+          <!-- tick marks -->
+          <div class="tick tick1"></div>
+          <div class="tick tick2"></div>
+          <div class="tick tick3"></div>
+          <div class="tick tick4"></div>
+          <div class="tick tick5"></div>
+          <div class="tick tick6"></div>
+          <div class="tick tick7"></div>
+          <div class="tick tick8"></div>
+          <div class="tick tick9"></div>
+          <div class="tick tick10"></div>
+          <div class="tick tick11"></div>
+          <div class="tick tick12"></div>
+
+          <!-- No. 1 + No. 2 minute hand (centered) -->
+          <div id="minute-hand" class="hand minute-hand minute-hand-long"></div>
+
+          <!-- No. 1 central second hand -->
+          <div id="second-hand-central" class="hand second-hand-central"></div>
+
+          <!-- No. 2 moving second-hand pivot at tip of minute hand -->
+          <div id="second-pivot" class="second-pivot">
+            <div id="second-hand-orbit" class="second-hand-orbit"></div>
+          </div>
+
+          <!-- No. 3 circles -->
+          <div id="minute-circle" class="minute-circle">
+            <div id="second-circle" class="second-circle"></div>
+          </div>
+        </div>
+
+        <div class="time-label" id="time-label">25:00</div>
+      </div>
+
+      <button id="next-mode" class="arrow-btn">▶</button>
+    </div>
+
+    <div class="controls">
+      <button id="start-pause-btn">Start</button>
+      <button id="reset-btn">Reset</button>
+    </div>
+  </div>
+
+  <script src="pomo.js"></script>
+</body>
+</html>
