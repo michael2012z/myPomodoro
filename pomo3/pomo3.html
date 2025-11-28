@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pomodoro Timer No. 3</title>
+  <link rel="stylesheet" href="pomo3.css" />
+</head>
+<body>
+  <div class="app-container">
+    <h1 class="title">Pomodoro No. 3</h1>
+
+    <div class="clock-container">
+      <div class="clock-dial">
+        <!-- tick marks -->
+        <div class="tick tick1"></div>
+        <div class="tick tick2"></div>
+        <div class="tick tick3"></div>
+        <div class="tick tick4"></div>
+        <div class="tick tick5"></div>
+        <div class="tick tick6"></div>
+        <div class="tick tick7"></div>
+        <div class="tick tick8"></div>
+        <div class="tick tick9"></div>
+        <div class="tick tick10"></div>
+        <div class="tick tick11"></div>
+        <div class="tick tick12"></div>
+
+        <!-- minute circle (acts as minute hand) -->
+        <div id="minute-circle" class="minute-circle">
+          <!-- second circle (acts as second hand) -->
+          <div id="second-circle" class="second-circle"></div>
+        </div>
+
+        <!-- center pin -->
+        <div class="center-dot"></div>
+      </div>
+
+      <div class="time-label" id="time-label">25:00</div>
+    </div>
+
+    <div class="controls">
+      <button id="start-pause-btn">Start</button>
+      <button id="reset-btn">Reset</button>
+    </div>
+
+    <div class="note">
+      Minute and second are circles instead of straight hands.
+    </div>
+  </div>
+
+  <script src="pomo3.js"></script>
+</body>
+</html>
