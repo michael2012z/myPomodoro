@@ -164,3 +164,18 @@ body {
 .hidden {
   display: none;
 }
+
+.analog-label-overlay {
+  position: absolute;
+  left: 50%;
+  bottom: 18%;                /* bottom half of dial */
+  transform: translateX(-50%);
+
+  font-size: 2.0rem;
+  color: #ffffff;
+  opacity: 0.1;               /* 50% transparent */
+  pointer-events: none;
+  text-align: center;
+  width: 80%;
+  z-index: 10;
+}

@@ -4,8 +4,7 @@ import { createTimeEngine } from "./timeEngine.js";
 
 const timeEngine = createTimeEngine(CONFIG);
 const uiRoot = document.getElementById("ui-root");
-let baseUiSize = null;  // will be measured once
-
+let baseUiSize = null; // will be measured once
 
 // Styles are objects from config.styles[]
 // Each styleDefinition MUST implement:
@@ -14,7 +13,8 @@ let baseUiSize = null;  // will be measured once
 //   label: "No. 1",
 //   create(clockRoot): void,
 //   setActive(isActive): void,
-//   update(drawState): void
+//   update(drawState): void,
+//   (optional) showLabelInsideDial: boolean
 // }
 const styles = CONFIG.styles;
 
@@ -37,12 +37,20 @@ const nextStyleBtn = document.getElementById("next-style");
 const startPauseBtn = document.getElementById("start-pause-btn");
 const resetBtn = document.getElementById("reset-btn");
 
+// overlay label element (will be created after styles)
+let analogLabelEl = null;
+
 // --- STYLE MANAGEMENT ---
 
 // Let each style create its own dial into clockRoot
 styles.forEach((styleDef) => {
   styleDef.create(clockRoot);
 });
+
+// NOW create the overlay so it is on TOP of the dials
+analogLabelEl = document.createElement("div");
+analogLabelEl.className = "analog-label-overlay";
+clockRoot.appendChild(analogLabelEl);
 
 // activate a single style at a time
 function activateStyle(index) {
@@ -80,8 +88,26 @@ function render() {
   // style-specific drawing
   style.update(drawState);
 
-  // common label
-  timeLabelEl.textContent = drawState.labelText;
+  const labelText = drawState.labelText;
+
+  // For analog styles (no1/2/3): show label inside dial.
+  // For digital styles (no4/5/6): remove label entirely.
+  if (style.showLabelInsideDial) {
+    if (analogLabelEl) {
+      analogLabelEl.style.display = "block";
+      analogLabelEl.textContent = labelText;
+    }
+
+    // hide external label under dial
+    timeLabelEl.style.display = "none";
+  } else {
+    if (analogLabelEl) {
+      analogLabelEl.style.display = "none";
+    }
+
+    // external label removed for digital styles as requested
+    timeLabelEl.style.display = "none";
+  }
 }
 
 // --- TIMER LOOP ---
@@ -165,6 +191,11 @@ function changeFunction(delta) {
   render();
 }
 
+modeUpBtn.addEventListener("click", () => changeFunction(1));
+modeDownBtn.addEventListener("click", () => changeFunction(-1));
+
+// --- SCALING ---
+
 function updateScale() {
   if (!uiRoot) return;
 
@@ -183,10 +214,6 @@ function updateScale() {
   uiRoot.style.transform = `scale(${scale})`;
 }
 
-
-modeUpBtn.addEventListener("click", () => changeFunction(1));
-modeDownBtn.addEventListener("click", () => changeFunction(-1));
-
 // --- INITIALIZE ---
 
 activateStyle(currentStyleIndex);
@@ -194,6 +221,5 @@ timeEngine.setFunction(getCurrentFunction());
 updateTitle();
 render();
 
-updateScale();                         // <--- add this
-window.addEventListener("resize", updateScale); // <--- and this
-
+updateScale();
+window.addEventListener("resize", updateScale);

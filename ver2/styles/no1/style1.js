@@ -12,6 +12,7 @@ function ensureCssLoaded() {
 export const styleDefinition = {
   id: "no1",
   label: "No. 1",
+  showLabelInsideDial: true,
 
   create(clockRoot) {
     ensureCssLoaded();
