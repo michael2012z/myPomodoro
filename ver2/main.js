@@ -4,9 +4,9 @@ import { createTimeEngine } from "./timeEngine.js";
 
 const timeEngine = createTimeEngine(CONFIG);
 const uiRoot = document.getElementById("ui-root");
-let baseUiSize = null; // will be measured once
+let baseUiSize = null; // measured once for scaling
 
-// Styles are objects from config.styles[]
+// Styles are objects from CONFIG.styles[]
 // Each styleDefinition MUST implement:
 // {
 //   id: "no1",
@@ -22,8 +22,13 @@ let currentStyleIndex = 0; // index into styles[]
 const FUNCTIONS = ["pomodoro", "timer", "clock"];
 let currentFunctionIndex = 0; // index into FUNCTIONS
 
-let isRunning = false;
-let intervalId = null;
+// State for pomodoro/timer
+let isRunning = false;       // interval is actively stepping
+let isPaused = false;        // paused but not reset
+let intervalId = null;       // pomodoro/timer loop
+
+// State for clock auto-update
+let clockIntervalId = null;
 
 // DOM
 const titleEl = document.getElementById("title");
@@ -37,7 +42,7 @@ const nextStyleBtn = document.getElementById("next-style");
 const startPauseBtn = document.getElementById("start-pause-btn");
 const resetBtn = document.getElementById("reset-btn");
 
-// overlay label element (will be created after styles)
+// overlay label element (created after styles so it is on TOP)
 let analogLabelEl = null;
 
 // --- STYLE MANAGEMENT ---
@@ -47,7 +52,7 @@ styles.forEach((styleDef) => {
   styleDef.create(clockRoot);
 });
 
-// NOW create the overlay so it is on TOP of the dials
+// NOW create the overlay so it is above the dials
 analogLabelEl = document.createElement("div");
 analogLabelEl.className = "analog-label-overlay";
 clockRoot.appendChild(analogLabelEl);
@@ -91,79 +96,175 @@ function render() {
   const labelText = drawState.labelText;
 
   // For analog styles (no1/2/3): show label inside dial.
-  // For digital styles (no4/5/6): remove label entirely.
+  // For digital styles (no4/5/6): remove label completely.
   if (style.showLabelInsideDial) {
     if (analogLabelEl) {
       analogLabelEl.style.display = "block";
       analogLabelEl.textContent = labelText;
     }
-
-    // hide external label under dial
     timeLabelEl.style.display = "none";
   } else {
     if (analogLabelEl) {
       analogLabelEl.style.display = "none";
     }
-
-    // external label removed for digital styles as requested
     timeLabelEl.style.display = "none";
   }
 }
 
-// --- TIMER LOOP ---
+// --- POMODORO/TIMER LOOP HELPERS ---
 
-function startLoop() {
-  if (isRunning) return;
-  isRunning = true;
-  startPauseBtn.textContent = "Pause";
+function clearPomodoroTimerLoop() {
+  if (intervalId !== null) {
+    clearInterval(intervalId);
+    intervalId = null;
+  }
+}
 
+function startPomodoroTimerInterval() {
   const fn = getCurrentFunction();
-  timeEngine.setFunction(fn);
+  if (fn === "clock") return;
+
+  clearPomodoroTimerLoop();
 
   intervalId = setInterval(() => {
-    if (timeEngine.getFunction() === "clock") {
-      // no internal step; just redraw clock time
-      render();
+    const currentFn = getCurrentFunction();
+    if (currentFn === "clock") {
+      // safety: if user switched while interval still around
+      clearPomodoroTimerLoop();
       return;
     }
 
     const done = timeEngine.step();
     render();
 
-    if (done && timeEngine.getFunction() === "pomodoro") {
-      // stop when pomodoro finishes
-      stopLoop();
+    // When pomodoro finishes, auto-stop and reset button to "Start"
+    if (done && currentFn === "pomodoro") {
+      clearPomodoroTimerLoop();
+      isRunning = false;
+      isPaused = false;
+      startPauseBtn.textContent = "Start";
     }
   }, CONFIG.updateIntervalMs);
 }
 
-function stopLoop() {
+// Pause without resetting time
+function pausePomodoroTimer() {
   if (!isRunning) return;
+  clearPomodoroTimerLoop();
   isRunning = false;
+  isPaused = true;
+  startPauseBtn.textContent = "Resume";
+}
+
+// Fully stop & reset running state (used on mode change / reset)
+function stopPomodoroTimerCompletely() {
+  clearPomodoroTimerLoop();
+  isRunning = false;
+  isPaused = false;
   startPauseBtn.textContent = "Start";
-  if (intervalId) {
-    clearInterval(intervalId);
-    intervalId = null;
+}
+
+// --- CLOCK LOOP HELPERS ---
+
+function stopClockLoop() {
+  if (clockIntervalId !== null) {
+    clearInterval(clockIntervalId);
+    clockIntervalId = null;
   }
 }
 
+function startClockLoop() {
+  if (clockIntervalId !== null) return;
+  clockIntervalId = setInterval(() => {
+    render(); // clock drawState uses current time
+  }, CONFIG.updateIntervalMs);
+}
+
+// --- RESET CURRENT MODE STATE ---
+
 function resetCurrent() {
+  // For pomodoro/timer, this should reset to initial value
+  stopPomodoroTimerCompletely();
   timeEngine.resetCurrent();
   render();
 }
 
+// --- APPLY FUNCTION CHANGE (Pomodoro / Timer / Clock) ---
+
+function applyFunctionChange() {
+  const fn = getCurrentFunction();
+
+  // Stop both kinds of loops whenever we change mode
+  stopPomodoroTimerCompletely();
+  stopClockLoop();
+
+  // Tell engine which function we're in
+  timeEngine.setFunction(fn);
+
+  updateTitle();
+
+  if (fn === "clock") {
+    // Clock mode: auto-update, controls disabled
+    startPauseBtn.disabled = true;
+    resetBtn.disabled = true;
+    startClockLoop();
+    render(); // draw immediately
+  } else {
+    // Pomodoro / Timer: manual start, controls enabled
+    startPauseBtn.disabled = false;
+    resetBtn.disabled = false;
+    render(); // show initial/static state
+  }
+}
+
 // --- EVENT HANDLERS ---
 
+// Start / Pause / Resume (Pomodoro/Timer)
 startPauseBtn.addEventListener("click", () => {
-  if (isRunning) stopLoop();
-  else startLoop();
+  const fn = getCurrentFunction();
+  if (fn === "clock") {
+    // Button is disabled in clock mode, but guard just in case
+    return;
+  }
+
+  // Case 1: fresh start (not running, not paused)
+  if (!isRunning && !isPaused) {
+    isRunning = true;
+    isPaused = false;
+    startPauseBtn.textContent = "Pause";
+    // Ensure engine is in correct function mode
+    timeEngine.setFunction(fn);
+    startPomodoroTimerInterval();
+    return;
+  }
+
+  // Case 2: currently running → pause
+  if (isRunning) {
+    pausePomodoroTimer();
+    return;
+  }
+
+  // Case 3: paused → resume
+  if (!isRunning && isPaused) {
+    isRunning = true;
+    isPaused = false;
+    startPauseBtn.textContent = "Pause";
+    startPomodoroTimerInterval();
+    return;
+  }
 });
 
+// Reset (Pomodoro/Timer only)
 resetBtn.addEventListener("click", () => {
-  stopLoop();
+  const fn = getCurrentFunction();
+  if (fn === "clock") {
+    // disabled in clock mode
+    return;
+  }
   resetCurrent();
 });
 
+// Styles
 prevStyleBtn.addEventListener("click", () => {
   currentStyleIndex =
     (currentStyleIndex - 1 + styles.length) % styles.length;
@@ -181,14 +282,9 @@ nextStyleBtn.addEventListener("click", () => {
 
 // up/down: cycle functions
 function changeFunction(delta) {
-  stopLoop();
   currentFunctionIndex =
     (currentFunctionIndex + delta + FUNCTIONS.length) % FUNCTIONS.length;
-
-  const fn = getCurrentFunction();
-  timeEngine.setFunction(fn);
-  updateTitle();
-  render();
+  applyFunctionChange();
 }
 
 modeUpBtn.addEventListener("click", () => changeFunction(1));
@@ -217,9 +313,7 @@ function updateScale() {
 // --- INITIALIZE ---
 
 activateStyle(currentStyleIndex);
-timeEngine.setFunction(getCurrentFunction());
-updateTitle();
-render();
+applyFunctionChange(); // sets mode, title, loops, and first render
 
 updateScale();
 window.addEventListener("resize", updateScale);
