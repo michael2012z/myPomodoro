@@ -105,6 +105,11 @@ body {
   height: 260px;
 }
 
+#ui-root {
+  transform-origin: center center;
+}
+
+
 /* Time label / controls */
 
 .time-label {

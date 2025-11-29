@@ -3,6 +3,9 @@ import { CONFIG } from "./config.js";
 import { createTimeEngine } from "./timeEngine.js";
 
 const timeEngine = createTimeEngine(CONFIG);
+const uiRoot = document.getElementById("ui-root");
+let baseUiSize = null;  // will be measured once
+
 
 // Styles are objects from config.styles[]
 // Each styleDefinition MUST implement:
@@ -162,6 +165,25 @@ function changeFunction(delta) {
   render();
 }
 
+function updateScale() {
+  if (!uiRoot) return;
+
+  // Target size: 60% of the smaller viewport side
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const targetSize = Math.min(vw, vh) * 0.6;
+
+  // Measure the "natural" size of the UI once (Version 2 layout)
+  if (baseUiSize === null) {
+    const rect = uiRoot.getBoundingClientRect();
+    baseUiSize = Math.min(rect.width, rect.height) || 1;
+  }
+
+  const scale = targetSize / baseUiSize;
+  uiRoot.style.transform = `scale(${scale})`;
+}
+
+
 modeUpBtn.addEventListener("click", () => changeFunction(1));
 modeDownBtn.addEventListener("click", () => changeFunction(-1));
 
@@ -171,3 +193,7 @@ activateStyle(currentStyleIndex);
 timeEngine.setFunction(getCurrentFunction());
 updateTitle();
 render();
+
+updateScale();                         // <--- add this
+window.addEventListener("resize", updateScale); // <--- and this
+
