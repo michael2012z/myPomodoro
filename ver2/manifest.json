@@ -1,0 +1,11 @@
+{
+  "name": "Pomodoro Styles V2",
+  "version": "2.0.0",
+  "manifest_version": 3,
+  "action": {
+    "default_title": "Pomodoro / Timer / Clock"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}

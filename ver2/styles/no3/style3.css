@@ -1,0 +1,52 @@
+/* styles/no3/style3.css */
+
+.style-no3-root {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  border: 6px solid #e5e7eb;
+  background: radial-gradient(circle at 30% 30%, #1f2933, #020617);
+  box-shadow:
+    0 0 20px rgba(0, 0, 0, 0.5),
+    inset 0 0 8px rgba(0, 0, 0, 0.6);
+}
+
+/* tick marks */
+.style-no3-root .tick {
+  position: absolute;
+  width: 2px;
+  height: 14px;
+  background: #9ca3af;
+  top: 0;
+  left: 50%;
+  transform-origin: center 124px;
+}
+
+/* circles */
+
+.style-no3-root .minute-circle {
+  position: absolute;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  border: 3px solid #f97316;
+  box-shadow: 0 0 8px rgba(249, 115, 22, 0.7);
+
+  top: 50%;
+  left: 50%;
+  transform-origin: center center;
+}
+
+.style-no3-root .second-circle {
+  position: absolute;
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  border: 2px solid #facc15;
+  box-shadow: 0 0 8px rgba(250, 204, 21, 0.7);
+
+  top: 50%;
+  left: 50%;
+  transform-origin: center center;
+}
