@@ -40,7 +40,7 @@ function createDigitElement(extraClass) {
 
 export const styleDefinition = {
   id: "no4",
-  label: "No. 4",
+  label: "",
 
   create(clockRoot) {
     ensureCssLoaded();

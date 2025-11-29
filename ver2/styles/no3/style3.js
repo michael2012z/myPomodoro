@@ -15,9 +15,9 @@ function ensureCssLoaded() {
 
 export const styleDefinition = {
   id: "no3",
-  label: "No. 3",
+  label: "",
   showLabelInsideDial: true,
-  
+
   create(clockRoot) {
     ensureCssLoaded();
 
@@ -46,6 +46,7 @@ export const styleDefinition = {
     this._root = root;
     this._minuteCircle = minuteCircle;
     this._secondCircle = secondCircle;
+    this._currentTickCount = null;
   },
 
   setActive(isActive) {
@@ -55,12 +56,36 @@ export const styleDefinition = {
 
   update(drawState) {
     if (!this._root) return;
-    const { minuteAngle, secondAngle } = drawState;
+    const { minuteAngle, secondAngle, function: fn } = drawState;
+
+    const desiredTicks = fn === "pomodoro" ? 5 : 12;
+
+    if (this._currentTickCount !== desiredTicks) {
+        this._currentTickCount = desiredTicks;
+
+        // remove old ticks
+        const oldTicks = this._root.querySelectorAll(".tick");
+        oldTicks.forEach((t) => t.remove());
+
+        // add new ticks
+        const stepAngle = 360 / desiredTicks;
+        for (let i = 0; i < desiredTicks; i++) {
+        const tick = document.createElement("div");
+        tick.className = "tick";
+        const angle = i * stepAngle;
+        tick.style.transform = `translateX(-50%) rotate(${angle}deg)`;
+        this._root.appendChild(tick);
+        }
+    }
+
+    const DIAL_RADIUS = 130;
+    const MINUTE_RADIUS = DIAL_RADIUS / 2;   // 65
+    const SECOND_RADIUS = MINUTE_RADIUS / 2; // 32.5
 
     this._minuteCircle.style.transform =
-      `translate(-50%, -50%) rotate(${minuteAngle}deg) translate(0, -${MINUTE_RADIUS}px)`;
+        `translate(-50%, -50%) rotate(${minuteAngle}deg) translate(0, -${MINUTE_RADIUS}px)`;
 
     this._secondCircle.style.transform =
-      `translate(-50%, -50%) rotate(${secondAngle}deg) translate(0, -${SECOND_RADIUS}px)`;
+        `translate(-50%, -50%) rotate(${secondAngle}deg) translate(0, -${SECOND_RADIUS}px)`;
   },
 };

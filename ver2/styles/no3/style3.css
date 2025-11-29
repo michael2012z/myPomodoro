@@ -5,7 +5,7 @@
   width: 260px;
   height: 260px;
   border-radius: 50%;
-  border: 6px solid #e5e7eb;
+  border: 2px solid #e5e7eb;
   background: radial-gradient(circle at 30% 30%, #1f2933, #020617);
   box-shadow:
     0 0 20px rgba(0, 0, 0, 0.5),
@@ -16,11 +16,11 @@
 .style-no3-root .tick {
   position: absolute;
   width: 2px;
-  height: 14px;
+  height: 7px;
   background: #9ca3af;
   top: 0;
   left: 50%;
-  transform-origin: center 124px;
+  transform-origin: center 128px;
 }
 
 /* circles */

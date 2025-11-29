@@ -11,7 +11,7 @@ function ensureCssLoaded() {
 
 export const styleDefinition = {
   id: "no6",
-  label: "No. 6",
+  label: "",
 
   create(clockRoot) {
     ensureCssLoaded();
