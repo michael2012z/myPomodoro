@@ -45,6 +45,16 @@ const resetBtn = document.getElementById("reset-btn");
 // overlay label element (created after styles so it is on TOP)
 let analogLabelEl = null;
 
+analogLabelEl = document.createElement("div");
+analogLabelEl.className = "analog-label-overlay";
+clockRoot.appendChild(analogLabelEl);
+
+// NEW: warning dot for pomodoro
+const pomodoroDotEl = document.createElement("div");
+pomodoroDotEl.className = "pomodoro-warning-dot";
+clockRoot.appendChild(pomodoroDotEl);
+
+
 // --- STYLE MANAGEMENT ---
 
 // Let each style create its own dial into clockRoot
@@ -109,6 +119,53 @@ function render() {
     }
     timeLabelEl.style.display = "none";
   }
+
+  // --- Pomodoro warning dot (all styles) ---
+  const fn = drawState.function;
+
+  if (fn === "pomodoro") {
+    // parse remaining time from labelText (MM:SS)
+    let remainingSec = null;
+    const parts = labelText.split(":");
+    if (parts.length === 2) {
+      const mm = parseInt(parts[0], 10);
+      const ss = parseInt(parts[1], 10);
+      if (!Number.isNaN(mm) && !Number.isNaN(ss)) {
+        remainingSec = mm * 60 + ss;
+      }
+    }
+
+    if (
+      remainingSec !== null &&
+      remainingSec > 0 &&            // hide after timeout
+      remainingSec <= 3 * 60         // last 3 minutes
+    ) {
+      // show & flash
+      pomodoroDotEl.style.display = "block";
+      pomodoroDotEl.classList.add("flash");
+
+      if (remainingSec <= 60) {
+        // last 1 minute → red
+        pomodoroDotEl.style.backgroundColor = "#ef4444";
+        pomodoroDotEl.style.boxShadow =
+          "0 0 10px rgba(239, 68, 68, 0.9)";
+      } else {
+        // between 3 and 1 minutes → yellow
+        pomodoroDotEl.style.backgroundColor = "#facc15";
+        pomodoroDotEl.style.boxShadow =
+          "0 0 10px rgba(250, 204, 21, 0.9)";
+      }
+    } else {
+      // not in last 3 minutes or already 0 → hide
+      pomodoroDotEl.style.display = "none";
+      pomodoroDotEl.classList.remove("flash");
+    }
+  } else {
+    // not pomodoro → hide
+    pomodoroDotEl.style.display = "none";
+    pomodoroDotEl.classList.remove("flash");
+  }
+
 }
 
 // --- POMODORO/TIMER LOOP HELPERS ---

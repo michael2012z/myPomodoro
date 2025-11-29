@@ -187,3 +187,26 @@ button:disabled {
   pointer-events: none;
 }
 
+/* Pomodoro warning dot (top-right outside dial) */
+.pomodoro-warning-dot {
+  position: absolute;
+  width: 10px;      /* radius 5px */
+  height: 10px;
+  border-radius: 50%;
+  top: -6px;        /* just outside dial */
+  right: -6px;
+  background: #facc15;
+  box-shadow: 0 0 10px rgba(250, 204, 21, 0.9);
+  display: none;
+  z-index: 12;
+}
+
+/* flashing at 1 Hz */
+.pomodoro-warning-dot.flash {
+  animation: pomodoroDotFlash 1s infinite;
+}
+
+@keyframes pomodoroDotFlash {
+  0%, 50%   { opacity: 1; }
+  50.0001%, 100% { opacity: 0; }
+}
