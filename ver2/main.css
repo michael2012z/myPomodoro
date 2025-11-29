@@ -95,7 +95,10 @@ body {
 .clock-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center;       /* horizontal center */
+  justify-content: center;   /* vertical center */
+  gap: 12px;                 /* nice spacing between panel and label */
+  min-height: 260px;         /* enough height for dial + label */
 }
 
 /* The style’s dial lives inside #clock-root */
@@ -103,7 +106,14 @@ body {
 #clock-root {
   width: 260px;
   height: 260px;
+  position: relative;
+
+  /* center whatever style is inside (No.1–No.6) */
+  display: flex;
+  align-items: center;      /* vertical center */
+  justify-content: center;  /* horizontal center */
 }
+
 
 #ui-root {
   transform-origin: center center;
