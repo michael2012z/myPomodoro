@@ -1,7 +1,8 @@
 {
-  "name": "Pomodoro Styles V2",
-  "version": "2.0.0",
+  "name": "TickCraft",
+  "version": "0.1.0",
   "manifest_version": 3,
+  "description": "A stylish Pomodoro, timer, and clock extension offering multiple display styles",
   "action": {
     "default_title": "Pomodoro / Timer / Clock"
   },
