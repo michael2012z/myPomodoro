@@ -1,0 +1,107 @@
+/* Sun–Earth–Moon orbital Pomodoro style (No. 8, realistic images) */
+
+.style-no8-root {
+  width: 260px;
+  height: 260px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.style-no8-face {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 30%, #111827, #020617);
+  box-shadow:
+    0 14px 28px rgba(0, 0, 0, 0.7),
+    inset 0 0 30px rgba(0, 0, 0, 0.85);
+}
+
+/* outer orbit path (minute circle) */
+.style-no8-orbit {
+  position: absolute;
+  inset: 14px;
+  border-radius: 50%;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+}
+
+/* earth orbit container – rotated in JS */
+.style-no8-earth-orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform-origin: 50% 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* earth on the outer orbit */
+.style-no8-earth {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-image: url("./earth.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* moon orbit around earth – rotated in JS */
+.style-no8-moon-orbit {
+  position: absolute;
+  top: 50%;
+  left: 48%;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  transform-origin: 50% 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* moon on its small orbit */
+.style-no8-moon {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-image: url("./moon.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow:
+    0 0 6px rgba(148, 163, 184, 0.9),
+    0 0 10px rgba(148, 163, 184, 0.7);
+}
+
+/* sun in center */
+.style-no8-sun {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100px;   /* slightly larger — fills glow border */
+  height: 100px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background-image: url("./sun.png");
+  background-size: 115%; /* enlarges picture inside circle */
+  background-position: center;
+  background-repeat: no-repeat;
+
+  /* Tighter glow — lower distance so no dark ring appears */
+  box-shadow:
+    0 0 25px 10px rgba(255, 160, 30, 0.8),
+    0 0 60px 25px rgba(255, 130, 20, 0.55);
+}
+
