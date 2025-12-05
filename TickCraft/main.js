@@ -69,8 +69,26 @@ clockRoot.appendChild(analogLabelEl);
 
 // activate a single style at a time
 function activateStyle(index) {
-  styles.forEach((s, i) => s.setActive(i === index));
+  styles.forEach((s, i) => {
+    const isActive = i === index;
+
+    // normal path: style implements setActive
+    if (typeof s.setActive === "function") {
+      try {
+        s.setActive(isActive);
+        return;
+      } catch (e) {
+        console.error("Error in setActive for style", s.id, e);
+      }
+    }
+
+    // fallback: if style has a root element, hide/show directly
+    if (s._root && s._root.style) {
+      s._root.style.display = isActive ? "block" : "none";
+    }
+  });
 }
+
 
 function getCurrentStyle() {
   return styles[currentStyleIndex];

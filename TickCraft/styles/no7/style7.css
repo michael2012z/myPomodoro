@@ -1,0 +1,39 @@
+/* Pixel grid style for No.7 */
+
+.style-no7-root {
+  width: 260px;
+  height: 180px;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+
+  /* background grid */
+  --cell: 10px;
+  background-color: #003049; /* dark blue */
+  background-image:
+    linear-gradient(#f9e0ff 1px, transparent 1px),
+    linear-gradient(90deg, #f9e0ff 1px, transparent 1px);
+  background-size: var(--cell) var(--cell);
+
+  box-shadow:
+    0 12px 25px rgba(0, 0, 0, 0.5),
+    inset 0 0 20px rgba(0, 0, 0, 0.7);
+}
+
+.style-no7-pixels {
+  position: absolute;
+  inset: 0;
+}
+
+/* lit pixels */
+.style-no7-pixel-on {
+  position: absolute;
+  width: calc(var(--cell) - 3px);
+  height: calc(var(--cell) - 3px);
+  background: #f97316; /* same as minute hand */
+  box-shadow:
+    0 0 6px rgba(255, 212, 71, 0.95),
+    0 0 12px rgba(255, 200, 40, 0.75),
+    0 0 24px rgba(255, 180, 30, 0.55);
+  border-radius: 2px;
+}
