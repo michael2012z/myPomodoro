@@ -6,6 +6,7 @@ import { styleDefinition as style4 } from "./styles/no4/style4.js";
 import { styleDefinition as style5 } from "./styles/no5/style5.js";
 import { styleDefinition as style6 } from "./styles/no6/style6.js";
 import { styleDefinition as style7 } from "./styles/no7/style7.js";
+import { styleDefinition as style8 } from "./styles/no8/style8.js";
 
 export const CONFIG = {
   // how often the clock updates (ms)
@@ -18,5 +19,5 @@ export const CONFIG = {
   functions: ["pomodoro", "timer", "clock"],
 
   // list of styles to include
-  styles: [style1, style2, style3, style4, style5, style6, style7],
+  styles: [style1, style2, style3, style4, style5, style6, style7, style8],
 };
