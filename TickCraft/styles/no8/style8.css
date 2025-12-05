@@ -80,9 +80,6 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  box-shadow:
-    0 0 6px rgba(148, 163, 184, 0.9),
-    0 0 10px rgba(148, 163, 184, 0.7);
 }
 
 /* sun in center */
