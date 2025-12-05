@@ -19,5 +19,5 @@ export const CONFIG = {
   functions: ["pomodoro", "timer", "clock"],
 
   // list of styles to include
-  styles: [style1, style2, style3, style4, style5, style6, style7, style8],
+  styles: [style1, style2, style3, style8, style4, style5, style6, style7],
 };
