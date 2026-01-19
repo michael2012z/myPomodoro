@@ -36,10 +36,10 @@ export const styleDefinition = {
     const face = document.createElement("div");
     face.className = "style-no9-face";
 
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < 5; i++) {
       const tick = document.createElement("div");
       tick.className = "tick";
-      const angle = i * 30;
+      const angle = i * 72;
       tick.style.transform = `translateX(-50%) rotate(${angle}deg)`;
       face.appendChild(tick);
     }
