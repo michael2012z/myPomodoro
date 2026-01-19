@@ -29,6 +29,7 @@
   height: 140px;
   border-radius: 50%;
   transform: translateX(-50%);
+  z-index: 2;
   background: radial-gradient(circle at 40% 30%, #f8ead2, #d9c4a5);
   border: 2px solid rgba(62, 39, 24, 0.85);
   box-shadow:
@@ -75,11 +76,12 @@
 .style-no9-pendulum {
   position: absolute;
   left: 50%;
-  top: 160px;
+  top: 90px;
   width: 120px;
-  height: 100px;
+  height: 152px;
   transform-origin: 50% 0;
   transform: translateX(-50%);
+  z-index: 1;
 }
 
 .style-no9-rod {
@@ -87,7 +89,7 @@
   left: 50%;
   top: 6px;
   width: 4px;
-  height: 68px;
+  height: 129px;
   transform: translateX(-50%);
   background: linear-gradient(#d8b978, #a1713a);
   border-radius: 999px;
@@ -97,7 +99,7 @@
 .style-no9-bob {
   position: absolute;
   left: 50%;
-  top: 62px;
+  top: 124px;
   width: 36px;
   height: 36px;
   transform: translateX(-50%);
