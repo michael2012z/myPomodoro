@@ -110,7 +110,7 @@
     inset 0 0 6px rgba(255, 255, 255, 0.4);
 }
 
-.style-no9-root.is-active .style-no9-pendulum {
+.is-running .style-no9-root.is-active .style-no9-pendulum {
   animation: pendulum-swing 2s ease-in-out infinite;
 }
 

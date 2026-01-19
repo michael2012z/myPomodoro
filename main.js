@@ -54,6 +54,11 @@ const pomodoroDotEl = document.createElement("div");
 pomodoroDotEl.className = "pomodoro-warning-dot";
 clockRoot.appendChild(pomodoroDotEl);
 
+function updateRunningClass() {
+  const fn = getCurrentFunction();
+  const shouldSwing = fn === "clock" || isRunning;
+  clockRoot.classList.toggle("is-running", shouldSwing);
+}
 
 // --- STYLE MANAGEMENT ---
 
@@ -120,6 +125,7 @@ function render() {
 
   // style-specific drawing
   style.update(drawState);
+  updateRunningClass();
 
   const labelText = drawState.labelText;
 
@@ -229,6 +235,7 @@ function pausePomodoroTimer() {
   isRunning = false;
   isPaused = true;
   startPauseBtn.textContent = "Resume";
+  updateRunningClass();
 }
 
 // Fully stop & reset running state (used on mode change / reset)
@@ -237,6 +244,7 @@ function stopPomodoroTimerCompletely() {
   isRunning = false;
   isPaused = false;
   startPauseBtn.textContent = "Start";
+  updateRunningClass();
 }
 
 // --- CLOCK LOOP HELPERS ---
@@ -290,6 +298,7 @@ function applyFunctionChange() {
     resetBtn.disabled = false;
     render(); // show initial/static state
   }
+  updateRunningClass();
 }
 
 // --- EVENT HANDLERS ---
@@ -310,6 +319,7 @@ startPauseBtn.addEventListener("click", () => {
     // Ensure engine is in correct function mode
     timeEngine.setFunction(fn);
     startPomodoroTimerInterval();
+    updateRunningClass();
     return;
   }
 
@@ -325,6 +335,7 @@ startPauseBtn.addEventListener("click", () => {
     isPaused = false;
     startPauseBtn.textContent = "Pause";
     startPomodoroTimerInterval();
+    updateRunningClass();
     return;
   }
 });
