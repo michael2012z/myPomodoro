@@ -7,7 +7,7 @@
   --no10-face-size: 124px;
   --no10-face-radius: 62px;
   --no10-face-top: 21px;
-  --no10-minute-length: 48px;
+  --no10-minute-length: 38px;
   --no10-second-length: 53px;
   border-radius: 0;
   background: none;
@@ -96,7 +96,7 @@
   left: 50%;
   top: calc(var(--no10-face-top) + var(--no10-face-radius));
   width: 120px;
-  height: 152px;
+  height: 209px;
   transform-origin: 50% 0;
   transform: translateX(-50%);
   z-index: 1;
@@ -107,7 +107,7 @@
   left: 50%;
   top: 6px;
   width: 4px;
-  height: 114px;
+  height: 171px;
   transform: translateX(-50%);
   background: linear-gradient(#c9c9c9, #8a8a8a);
   border-radius: 999px;
@@ -117,7 +117,7 @@
 .style-no10-bob {
   position: absolute;
   left: 50%;
-  top: 112px;
+  top: 169px;
   width: 38px;
   height: 38px;
   transform: translateX(-50%);
