@@ -224,6 +224,7 @@ function startPomodoroTimerInterval() {
       isRunning = false;
       isPaused = false;
       startPauseBtn.textContent = "Start";
+      updateRunningClass();
     }
   }, CONFIG.updateIntervalMs);
 }
