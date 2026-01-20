@@ -1,0 +1,145 @@
+/* Grandfather clock Pomodoro style (No. 10) */
+
+.style-no10-root {
+  position: relative;
+  width: 209px;
+  height: 304px;
+  --no10-face-size: 124px;
+  --no10-face-radius: 62px;
+  --no10-face-top: 21px;
+  --no10-minute-length: 48px;
+  --no10-second-length: 53px;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.style-no10-root::before {
+  content: none;
+}
+
+.style-no10-crown {
+  display: none;
+}
+
+.style-no10-slot {
+  display: none;
+}
+
+.style-no10-face {
+  position: absolute;
+  top: var(--no10-face-top);
+  left: 50%;
+  width: var(--no10-face-size);
+  height: var(--no10-face-size);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  background: radial-gradient(circle at 40% 35%, #ffffff, #e7e2da);
+  border: none;
+  box-shadow:
+    0 10px 16px rgba(0, 0, 0, 0.45),
+    inset 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.style-no10-tick {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 3px;
+  height: 10px;
+  border-radius: 999px;
+  background: #2c2016;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.style-no10-minute-hand {
+  position: absolute;
+  width: 5px;
+  height: var(--no10-minute-length);
+  background: #2f2b28;
+  left: 50%;
+  top: 50%;
+  transform-origin: 50% 100%;
+  border-radius: 999px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+}
+
+.style-no10-second-hand {
+  position: absolute;
+  width: 2px;
+  height: var(--no10-second-length);
+  background: #4b4b4b;
+  left: 50%;
+  top: 50%;
+  transform-origin: 50% 100%;
+  border-radius: 999px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.35);
+}
+
+.style-no10-center {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #1b120c;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow:
+    0 0 0 2px rgba(235, 207, 170, 0.6),
+    0 0 4px rgba(0, 0, 0, 0.4);
+}
+
+.style-no10-pendulum {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--no10-face-top) + var(--no10-face-radius));
+  width: 120px;
+  height: 152px;
+  transform-origin: 50% 0;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.style-no10-rod {
+  position: absolute;
+  left: 50%;
+  top: 6px;
+  width: 4px;
+  height: 114px;
+  transform: translateX(-50%);
+  background: linear-gradient(#c9c9c9, #8a8a8a);
+  border-radius: 999px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.35);
+}
+
+.style-no10-bob {
+  position: absolute;
+  left: 50%;
+  top: 112px;
+  width: 38px;
+  height: 38px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f4f4f4, #a6a6a6);
+  box-shadow:
+    0 12px 12px rgba(0, 0, 0, 0.35),
+    inset 0 0 6px rgba(255, 255, 255, 0.55);
+}
+
+.is-running .style-no10-root.is-active .style-no10-pendulum {
+  animation: pendulum-swing-10 2s ease-in-out infinite;
+}
+
+@keyframes pendulum-swing-10 {
+  0% {
+    transform: translateX(-50%) rotate(-20deg);
+  }
+  50% {
+    transform: translateX(-50%) rotate(20deg);
+  }
+  100% {
+    transform: translateX(-50%) rotate(-20deg);
+  }
+}
